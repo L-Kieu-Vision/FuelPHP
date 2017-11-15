@@ -1,0 +1,298 @@
+<main>
+    <div class="wrapper">
+        <div class="main-container">
+            <div class="header-container">
+                <div class="header-title-container">
+                    <label class="">Hello!</label>
+                    <label class="pull-right">Modules Store</label>
+                </div>
+            </div>
+            <div class="body-container admin-container">
+                <div class="search-block">
+                    <form class="form-horizontal" action="" method="POST">
+                        <div class="form-group">
+                            <label class="control-label col-sm-1">Emp ID</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" ng-model="sEmp" value="" name="sEmp" id="sEmp" placeholder="Emp ID">
+                            </div>
+
+                            <label class="control-label col-sm-1">Name</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" ng-model="sName" value="" id="sName" name="sName" placeholder="Name">
+                            </div>
+                            <label class="control-label col-sm-1">Email</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" ng-model="sEmail" value="" id="sEmail" name="sEmail" placeholder="Email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-1">Phone</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" ng-model="sPhone" value="" id="sPhone" name="sPhone" placeholder="Phone">
+                            </div>
+                            <label class="control-label col-sm-1">Department</label>
+                            <div class="col-sm-2">
+                                <select id="department" ng-model="search.depart" name="department" class="form-control">
+                                    <option disabled selected value>-- Select an option --</option>
+                                    <option ng-repeat="depart in departs" value="{{depart.department_code}}">{{depart.department_name}}</option>
+                                </select>
+                            </div>
+                            <label class="control-label col-sm-1">Created</label>
+                            <div class="col-md-2">
+                                <input type="text" name="datefrom" ng-model="datefrom" value="" class="form-control" id="datepicker" placeholder="From">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" name="dateto" ng-model="dateto" value="" class="form-control" id="datepickerto" placeholder="To">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="datatable-block">
+                    <div class="statistic-datatable">
+                        <div class="col-md-6" style="margin-top:10px;margin-bottom:10px;text-align:left;padding-left: 0px;">
+                            <button type="buton" id="btn_search" name="btn_search" ng-click="searchUser()" class="btn btn-success">Search</button>
+                            <button class="btn btn-warning" type="button" ng-click="showAddUser()" >Add New</button>
+                            <button type="submit" id="btn_delete" ng-click="deleteUser(master)" class="btn btn-danger">Delete</button>
+                        </div>
+                        <div class="col-md-6" style="margin-top:10px;margin-bottom:10px;text-align:right">
+                            <div class="statistic-datatable-header">
+                                <div class="datatable-button">
+                                    <div class="btn-group">
+                                        <button type="button" ng-click="setPagination(10)" class="btn btn-default">10件</button>
+                                        <button type="button" ng-click="setPagination(20)" class="btn btn-default">20件</button>
+                                        <button type="button" ng-click="setPagination(50)" class="btn btn-default">50件</button>
+                                        <button type="button" ng-click="setPagination(100)" class="btn btn-default">100件</button>
+                                        <button type="button" ng-click="setPagination('all')" class="btn btn-default">ALL</button>
+                                    </div>
+                                </div>
+                                <div class="datatable-info">
+                                    <span></span> 件 / <span>{{$scope.total_record}}</span> <span ng-model="total_record">{{$scope.total_record}} 件</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="statistic-datatable-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="col-sm-1"><input type="checkbox" ng-model="master"></th>
+                                        <th class="col-sm-1">Created</th>
+                                        <th class="col-sm-1">Emp ID</th>
+                                        <th class="col-sm-2">Name</th>
+                                        <th class="col-sm-1">Email</th>
+                                        <th class="col-sm-2">Phone</th>
+                                        <th class="col-sm-2">Department</th>
+                                        <th class="col-sm-1">EDIT</th>
+                                        <th class="col-sm-1">Order</th>
+                                        <th class="col-sm-1">Reset Password</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="user in users" id="{{user.id}}">
+                                        <td class="col-sm-1"><input type="checkbox" ng-checked="master" ng-model="isTrue" ng-click="getIndex(user.id, isTrue)" name="user_id[]" id="user_id" class="delete_customer" value="{{user.id}}"></td>
+                                        <td class="col-sm-1">{{user.create_time}}</td>
+                                        <td class="col-sm-1">{{user.employee_id}}</td>
+                                        <td class="col-sm-2">{{user.name}}</td>
+                                        <td class="col-sm-1">{{user.email}}</td>
+                                        <td class="col-sm-2">{{user.phone_num}}</td>
+                                        <td class="col-sm-2">{{user.department_name}}</td>
+                                        <td class="col-sm-1"><button type="button" class="btn btn-xs btn-info edit_data" name="edit" ng-click="showDetail(user.id)">EDIT</button></td>
+                                        <td class="col-sm-1"><button type="button" class="btn btn-xs btn-info edit_data" name="edit" ng-click="showOrder(user.id)">Order</button></td>
+                                        <td class="col-sm-1">Reset Password</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="statistic-datatable-footer">
+                            <div class="datatable-pagination text-center">
+                                <ul class="pagination" id="pagination">
+                                    <li ng-class="{'active': $index+1 == currentPage}" ng-repeat="i in totalspage track by $index"><a ng-click="setPage($index+1)">{{$index+1}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Edit Modal -->
+<div id="admin-detail-modal" class="modal fade admin-detail-modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit User</h4>
+            </div>
+            <div class="modal-body">
+                <form name="form_admin_edit" method="POST">
+                    <input type="hidden" id="edit_user_id" ng-model="userEdit.id" name="edit_user_id">
+                    <div class="alert alert-danger hide"></div>
+                    <div class="alert alert-success hide"></div>
+                    <div class="form-group">
+                        <label for="empid">Emp ID</label>
+                        <input type="text" class="form-control" id="empid1" name="empid1" ng-model="userEdit.employee_id" value="" placeholder="Emp ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name1" name="name1" ng-model="userEdit.name" value="" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email1" name="email1" ng-model="userEdit.email" value="" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone1" name="phone1" ng-model="userEdit.phone_num" value="" placeholder="Phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="department1">Department</label>
+                        <select id="department" ng-model="edit.depart" name="department" class="form-control">
+                            <option disabled selected value>-- Select an option --</option>
+                            <option ng-selected="depart.department_code == userEdit.department_code" ng-repeat="depart in departs" value="{{depart.department_code}}">{{depart.department_name}}</option>
+                        </select>
+                    </div>
+                    <button type="button" id="buton_admin_edit" ng-click="updateUser(userEdit.id)" class="btn btn-primary">Edit User</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- End Edit Modal -->
+<!-- ADD Modal -->
+<div id="admin-add-new" class="modal fade admin-detail-modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form name="form_admin_add" action="" method="POST">
+                    <div class="alert alert-danger hide"></div>
+                    <div class="alert alert-success hide"></div>
+                    <div class="form-group">
+                        <label for="empid">Emp ID</label>
+                        <input type="text" class="form-control" id="empid" ng-model="userAdd.empid" ng-required="true" name="empid" placeholder="Emp ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" ng-model="userAdd.name" ng-required="true" name="name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" ng-model="userAdd.email" ng-required="true" name="email" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" ng-model="userAdd.password" ng-required="true" name="password" placeholder="Password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm" ng-model="userAdd.confirm" name="confirm" placeholder="Confirm Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" ng-model="userAdd.phone" ng-required='true' name="phone" placeholder="Phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <select id="department" ng-model="add.depart" name="department" class="form-control">
+                            <option disabled selected value>-- Select an option --</option>
+                            <option ng-repeat="depart in departs" value="{{depart.department_code}}">{{depart.department_name}}</option>
+                        </select>
+                    </div>
+                    <button type="button" id="buton_admin_add" ng-click="addUser()" class="btn btn-primary">Add User</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- End ADD Modal -->
+
+<!-- Modal order -->
+<div id="order-admin-orderdetail" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Order</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success hide"></div>
+                <button class="btn btn-warning btn-xs" ng-click="addOrderDetail()">Add Order</button><br><br>
+                <table class="table table-bordered" ng-repeat="order in orders track by $index">
+                    <input type="hidden" ng-model="order.id" value="{{order.id}}">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>employee_id</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>
+                                <button class="btn btn-danger btn-xs" ng-click="deleteOrderDetail($index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="{{order.id}}">{{order.id}}</td>
+                            <td>{{order.employee_id}}</td>
+                            <td style="color:red;">
+                                <!-- <input type="text" ng-model="order.total"> -->
+                                {{order.total}}
+                            </td>
+                            <td>{{order.status}}</td>
+                            <td>
+                                <button class="btn btn-primary btn-xs" ng-click="addProductToOrder($index)"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="listproduct in order.order_detail track by $index">
+                            <td colspan="6">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Product</th>
+                                            <th>Price</th>
+                                            <th>Amount</th>
+                                            <th>Sub Total</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select ng-model="listproduct.id_product" ng-change="changeProducted(listproduct.id_product,$parent.$index,$index)">
+                                                    <option ng-repeat="product in products" value="{{product.id}}">{{product.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <!-- <input type="text" ng-model="listproduct.price"> -->
+                                                {{listproduct.price}}</td>
+                                            <td>
+                                                <input type="text" ng-model="listproduct.amount" numbers-only ng-change="changeAmount($parent.$index, $index)">
+                                            </td>
+                                            <td ng-model="row_total" >{{listproduct.price * listproduct.amount}}</td>
+                                            <td><button class="btn btn-danger btn-xs" ng-click="deleteProductInOrder($parent.$index, $index)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-default" ng-click="upDateOrder()">Save</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal order -->

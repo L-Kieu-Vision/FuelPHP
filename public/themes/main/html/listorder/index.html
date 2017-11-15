@@ -1,0 +1,69 @@
+<div class="container_fluid">
+    <div class="alert alert-success hide"></div>
+    <button class="btn btn-warning btn-xs" ng-click="addOrderDetail()">Add Order</button><br><br>
+    <table class="table table-bordered" ng-repeat="order in orders track by $index">
+        <input type="hidden" ng-model="order.id" value="{{order.id}}">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>employee_id</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>
+                    <button class="btn btn-danger btn-xs" ng-click="deleteOrderDetail($index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="{{order.id}}">{{order.id}}</td>
+                <td>{{order.employee_id}}</td>
+                <td style="color:red;">
+                    <!-- <input type="text" ng-model="order.total"> -->
+                    {{order.total}}
+                </td>
+                <td>{{order.status}}</td>
+                <td>
+                    <button class="btn btn-primary btn-xs" ng-click="addProductToOrder($index)"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                </td>
+            </tr>
+            <tr ng-repeat="listproduct in order.order_detail track by $index">
+                <td colspan="6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID Product</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                                <th>Sub Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select ng-model="listproduct.id_product" ng-change="changeProducted(listproduct.id_product,$parent.$index,$index)">
+                                        <option ng-repeat="product in products" value="{{product.id}}">{{product.name}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <!-- <input type="text" ng-model="listproduct.price"> -->
+                                {{listproduct.price}}</td>
+                                <td>
+                                    <input type="text" ng-model="listproduct.amount" numbers-only ng-change="changeAmount($parent.$index, $index)">
+                                </td>
+                                <td ng-model="row_total" >{{listproduct.price * listproduct.amount}}</td>
+                                <td><button class="btn btn-danger btn-xs" ng-click="deleteProductInOrder($parent.$index, $index)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-default" ng-click="upDateOrder()">Save</button>
+    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+</div>
